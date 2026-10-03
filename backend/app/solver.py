@@ -158,6 +158,7 @@ def solve_exact(problem: Problem) -> Outcome:
     values = problem.values
 
     previous = _alloc_row()
+    previous.extend([0.0] * stride)
     decisions = bytearray(count * stride)
 
     for index in range(count):
