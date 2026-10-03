@@ -1,0 +1,757 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans:
+    "Plus Jakarta Sans", ui-sans-serif, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Sora", "Plus Jakarta Sans", ui-sans-serif, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", monospace;
+}
+
+:root {
+  --background: #fafaf9;
+  --surface: #ffffff;
+  --surface-elevated: #ffffff;
+  --text-primary: #171717;
+  --text-secondary: #737373;
+  --text-muted: #a3a3a3;
+  --accent: #2563eb;
+  --accent-light: #3b82f6;
+  --accent-subtle: #eff6ff;
+  --success: #10b981;
+  --success-subtle: #ecfdf5;
+  --warning: #f59e0b;
+  --warning-subtle: #fffbeb;
+  --error: #ef4444;
+  --error-subtle: #fef2f2;
+  --border: #e5e5e5;
+  --border-strong: #d4d4d4;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+  --radius-sm: 0.5rem;
+  --radius: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+
+  /* ---- RGB spectrum system ---- */
+  --rgb-1: #ff2d78;
+  --rgb-2: #7b5cff;
+  --rgb-3: #00d9ff;
+  --rgb-4: #00ffa3;
+  --rgb-5: #ffd23f;
+  --rgb-hue-shift: 0deg;
+  --rgb-strength: 1;
+  --rgb-speed: 8s;
+  --grid-line: rgb(0 0 0 / 0.045);
+  --noise-opacity: 0.025;
+}
+
+:root {
+  --rgb-gradient: linear-gradient(
+    120deg,
+    var(--rgb-1),
+    var(--rgb-2),
+    var(--rgb-3),
+    var(--rgb-4),
+    var(--rgb-5),
+    var(--rgb-1)
+  );
+  --rgb-conic: conic-gradient(
+    from 0deg,
+    var(--rgb-1),
+    var(--rgb-2),
+    var(--rgb-3),
+    var(--rgb-4),
+    var(--rgb-5),
+    var(--rgb-1)
+  );
+}
+
+/* Subtle mode: desaturate the spectrum while keeping the structure */
+html[data-rgb="subtle"] {
+  --rgb-1: #f43f6f;
+  --rgb-2: #6366f1;
+  --rgb-3: #0ea5e9;
+  --rgb-4: #14b8a6;
+  --rgb-5: #f59e0b;
+  --rgb-strength: 0.55;
+}
+
+.dark {
+  --background: #0a0a0a;
+  --surface: #171717;
+  --surface-elevated: #262626;
+  --text-primary: #fafafa;
+  --text-secondary: #a3a3a3;
+  --text-muted: #737373;
+  --accent: #60a5fa;
+  --accent-light: #93c5fd;
+  --accent-subtle: rgba(37, 99, 235, 0.2);
+  --success: #34d399;
+  --success-subtle: rgba(16, 185, 129, 0.15);
+  --warning: #fbbf24;
+  --warning-subtle: rgba(245, 158, 11, 0.15);
+  --error: #f87171;
+  --error-subtle: rgba(239, 68, 68, 0.15);
+  --border: #262626;
+  --border-strong: #404040;
+  --grid-line: rgb(255 255 255 / 0.05);
+  --noise-opacity: 0.035;
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv01";
+  background-color: var(--background);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Display face for headings, wordmark and numeric emphasis */
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.03em;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes progress-pulse {
+  0%, 100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.08);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* ============================================================
+   RGB SPECTRUM ENGINE
+   Layered on top of the base design tokens above.
+   ============================================================ */
+
+/*
+ * Registering the animated angle lets the browser interpolate it.
+ * Without @property the hue would jump once per cycle instead of
+ * sweeping continuously.
+ */
+@property --rgb-hue-shift {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+
+/* --- 1. Spectrum rotation: drives every RGB effect from one place --- */
+@keyframes rgb-spectrum {
+  0% {
+    --rgb-hue-shift: 0deg;
+  }
+  100% {
+    --rgb-hue-shift: 360deg;
+  }
+}
+
+/* --- 2. Gradient position travel: the workhorse for fills and text --- */
+@keyframes rgb-slide {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 300% 50%;
+  }
+}
+
+/* --- 3. Conic rotation: for rings, halos and conic surfaces --- */
+@keyframes rgb-spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* --- 4. Aurora drift: slow, offset movement for background blobs --- */
+@keyframes rgb-drift-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(6%, -8%, 0) scale(1.18);
+  }
+  66% {
+    transform: translate3d(-7%, 5%, 0) scale(0.92);
+  }
+}
+
+@keyframes rgb-drift-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  40% {
+    transform: translate3d(-9%, 6%, 0) scale(1.22);
+  }
+  70% {
+    transform: translate3d(8%, -6%, 0) scale(0.9);
+  }
+}
+
+@keyframes rgb-drift-c {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(5%, 9%, 0) scale(1.12);
+  }
+}
+
+/* --- 5. Shine sweep: a specular highlight travelling across surfaces --- */
+@keyframes rgb-shine {
+  0% {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  100% {
+    transform: translateX(320%) skewX(-18deg);
+  }
+}
+
+/* --- 6. Breathing glow --- */
+@keyframes rgb-glow-cycle {
+  0%,
+  100% {
+    box-shadow:
+      0 6px 20px -6px color-mix(in srgb, var(--rgb-1) 55%, transparent),
+      0 2px 6px -2px color-mix(in srgb, var(--rgb-1) 30%, transparent);
+  }
+  33% {
+    box-shadow:
+      0 6px 20px -6px color-mix(in srgb, var(--rgb-3) 55%, transparent),
+      0 2px 6px -2px color-mix(in srgb, var(--rgb-3) 30%, transparent);
+  }
+  66% {
+    box-shadow:
+      0 6px 22px -6px color-mix(in srgb, var(--rgb-4) 55%, transparent),
+      0 2px 6px -2px color-mix(in srgb, var(--rgb-4) 30%, transparent);
+  }
+}
+
+/* --- 8. Pulsing dot (live indicators) --- */
+@keyframes rgb-beacon {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--rgb-3) 70%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 8px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+/* --- 9. Grid parallax --- */
+@keyframes rgb-grid-pan {
+  0% {
+    background-position: 0 0, 0 0;
+  }
+  100% {
+    background-position: 48px 48px, 48px 48px;
+  }
+}
+
+/* --- 10. Slow hue-rotate fallback for icon/solid tints --- */
+@keyframes rgb-hue {
+  0%,
+  100% {
+    filter: hue-rotate(0deg) saturate(1);
+  }
+  50% {
+    filter: hue-rotate(70deg) saturate(1.25);
+  }
+}
+
+/* ============================================================
+   RGB UTILITIES
+   ============================================================ */
+
+/* Whole-subtree hue rotation: cycles the entire spectrum once per pass */
+.rgb-spectrum {
+  filter: hue-rotate(var(--rgb-hue-shift)) saturate(1.05);
+  animation: rgb-spectrum 24s linear infinite;
+}
+
+/* Animated gradient text.
+   Deliberately no `color: transparent` — that would also erase `currentColor`
+   strokes on any nested SVG. -webkit-text-fill-color alone carries the gradient,
+   and the fallback is plain inherited colour where it is unsupported. */
+.rgb-text {
+  background-image: var(--rgb-gradient);
+  background-size: 300% 100%;
+  background-position: 0% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rgb-slide var(--rgb-speed) linear infinite;
+}
+
+/* Soft variant that stays legible on light backgrounds */
+.rgb-text-soft {
+  background-image: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--rgb-1) 88%, var(--text-primary)),
+    color-mix(in srgb, var(--rgb-3) 88%, var(--text-primary)),
+    color-mix(in srgb, var(--rgb-5) 88%, var(--text-primary)),
+    color-mix(in srgb, var(--rgb-1) 88%, var(--text-primary))
+  );
+  background-size: 300% 100%;
+  background-position: 0% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rgb-slide var(--rgb-speed) linear infinite;
+}
+
+/*
+ * Animated 1px gradient border.
+ * Technique: paint a spectrum gradient on ::before, then punch out the
+ * interior with a mask so only the rim survives. Works in both themes.
+ */
+.rgb-border {
+  position: relative;
+  isolation: isolate;
+}
+
+.rgb-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background-image: var(--rgb-gradient);
+  background-size: 300% 100%;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  animation: rgb-slide var(--rgb-speed) linear infinite;
+}
+
+/* Always-on spectrum rim */
+.rgb-border-active::before,
+.rgb-border:hover::before,
+.rgb-border-focus:focus-within::before {
+  opacity: 1;
+}
+
+/* Rotating conic halo — the "aurora ring" */
+.rgb-ring {
+  position: relative;
+}
+
+.rgb-ring::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: var(--rgb-conic);
+  will-change: transform;
+  animation: rgb-spin var(--rgb-speed) linear infinite;
+  -webkit-mask:
+    radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+  mask:
+    radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+  pointer-events: none;
+}
+
+/* Gradient-filled bar / fill surface (progress, meters) */
+.rgb-fill {
+  background-image: var(--rgb-gradient);
+  background-size: 300% 100%;
+  background-position: 0% 50%;
+  animation: rgb-slide calc(var(--rgb-speed) / 2) linear infinite;
+}
+
+/* Translucent spectrum wash for hero panels */
+.rgb-surface {
+  background-image: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--rgb-1) calc(14% * var(--rgb-strength)), transparent),
+    color-mix(in srgb, var(--rgb-3) calc(12% * var(--rgb-strength)), transparent),
+    color-mix(in srgb, var(--rgb-5) calc(10% * var(--rgb-strength)), transparent)
+  );
+  background-size: 200% 200%;
+  animation: rgb-slide calc(var(--rgb-speed) * 1.5) ease-in-out infinite;
+}
+
+/* Sweeping specular highlight overlay */
+.rgb-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.rgb-shine::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  bottom: -50%;
+  left: 0;
+  width: 38%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, #fff 42%, transparent),
+    transparent
+  );
+  pointer-events: none;
+  animation: rgb-shine 3.6s ease-in-out infinite;
+  animation-delay: var(--shine-delay, 0s);
+}
+
+/* Spectrum glow.
+   Implemented as an animated box-shadow rather than a blurred pseudo-element:
+   a z-index:-1 pseudo would paint *behind* the element's own opaque gradient
+   background and be invisible, and box-shadow survives overflow clipping. */
+.rgb-glow {
+  animation: rgb-glow-cycle calc(var(--rgb-speed) * 0.75) ease-in-out infinite;
+}
+
+/* Live status beacon */
+.rgb-beacon {
+  animation: rgb-beacon 2s ease-out infinite;
+}
+
+/* Chromatic colour cycle for solid icon tints */
+.rgb-hue {
+  animation: rgb-hue calc(var(--rgb-speed) * 0.75) ease-in-out infinite;
+}
+
+/* Animated hairline (thin gradient rule) */
+.rgb-hairline {
+  height: 2px;
+  width: 100%;
+  background-image: var(--rgb-gradient);
+  background-size: 300% 100%;
+  animation: rgb-slide calc(var(--rgb-speed) / 2) linear infinite;
+  border-radius: 999px;
+}
+
+/* Full-bleed animated grid backdrop */
+.rgb-grid {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  animation: rgb-grid-pan 14s linear infinite;
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 20%, transparent 78%);
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 20%, transparent 78%);
+}
+
+/* Film-grain overlay to stop the large gradients from banding */
+.rgb-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: var(--noise-opacity);
+}
+
+/* Aurora blob primitives — consumed by <AuroraBackground /> */
+.rgb-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  will-change: transform, opacity;
+}
+
+.rgb-blob-a {
+  animation: rgb-drift-a 26s ease-in-out infinite;
+}
+
+.rgb-blob-b {
+  animation: rgb-drift-b 32s ease-in-out infinite;
+}
+
+.rgb-blob-c {
+  animation: rgb-drift-c 22s ease-in-out infinite;
+}
+
+/* ============================================================
+   MOTION PREFERENCES
+   Two independent kill switches:
+   - html[data-motion="off"]  -> user reduced motion from Settings
+   - prefers-reduced-motion    -> OS-level accessibility
+   Both freeze animations but keep the static gradient artwork.
+   ============================================================ */
+
+html[data-motion="off"] *,
+html[data-motion="off"] *::before,
+html[data-motion="off"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+html[data-motion="off"] .rgb-border::before,
+html[data-motion="off"] .rgb-ring::before {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html *,
+  html *::before,
+  html *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html .rgb-border::before,
+  html .rgb-ring::before {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Utility classes */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.dark .glass {
+  background: rgba(23, 23, 23, 0.7);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--success) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.focus-ring {
+  outline: none;
+  transition: box-shadow 0.15s ease;
+}
+
+.focus-ring:focus-visible {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+/* Button press */
+.btn-press {
+  transition: transform 0.1s ease, box-shadow 0.15s ease;
+}
+
+.btn-press:active {
+  transform: scale(0.97);
+}
+
+/* Progress bar animation */
+.progress-bar {
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Hide number input arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Selection indicator */
+.selection-ring {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+/* ============================================================
+   FULL RGB KILL SWITCH (Settings -> RGB effects: Off)
+   Collapses the spectrum to a single brand colour and stops all
+   spectrum motion. The layout and hierarchy are untouched.
+   ============================================================ */
+
+html[data-rgb="off"] {
+  --rgb-1: #2563eb;
+  --rgb-2: #2563eb;
+  --rgb-3: #3b82f6;
+  --rgb-4: #2563eb;
+  --rgb-5: #60a5fa;
+  --rgb-strength: 0.5;
+}
+
+html[data-rgb="off"] .rgb-text,
+html[data-rgb="off"] .rgb-text-soft,
+html[data-rgb="off"] .rgb-fill,
+html[data-rgb="off"] .rgb-hairline,
+html[data-rgb="off"] .rgb-border::before,
+html[data-rgb="off"] .rgb-ring::before,
+html[data-rgb="off"] .rgb-surface {
+  animation: none !important;
+}
+
+html[data-rgb="off"] .rgb-ring::before {
+  opacity: 0.35;
+}
+
+html[data-rgb="off"] .rgb-glow {
+  animation: none !important;
+  box-shadow:
+    0 6px 20px -6px color-mix(in srgb, var(--accent) 45%, transparent),
+    0 2px 6px -2px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+html[data-rgb="off"] .rgb-grid,
+html[data-rgb="off"] .rgb-hue,
+html[data-rgb="off"] .rgb-spectrum,
+html[data-rgb="off"] .rgb-beacon {
+  animation: none !important;
+}
+
+html[data-rgb="off"] .rgb-shine::after {
+  animation: rgb-shine 9s ease-in-out infinite;
+  opacity: 0.25;
+}
+
+/* Slightly stronger elevation for the hover lift */
+.card-hover {
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.card-hover:hover {
+  box-shadow: var(--shadow-md);
+}
